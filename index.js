@@ -1,5 +1,5 @@
 const express = require('express');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const cors = require('cors');
 require("dotenv").config();
 const app = express();
@@ -25,7 +25,10 @@ async function run() {
         })
         // get specific one item from database( by id)
         app.get('/cloth/:id', async (req, res) => {
-
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const cloth = await clothCollection.findOne(query);
+            res.send(cloth);
         })
 
     }

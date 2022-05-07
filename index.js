@@ -44,6 +44,22 @@ async function run() {
             const result = await clothCollection.insertOne(newCloth);
             res.send(result);
         })
+        // put: update stock
+        app.put('/cloth/:id', async (req, res) => {
+            const id = req.params.id;
+            const newStock = req.body;
+            console.log(newStock);
+            const filter = { _id: ObjectId(id) };
+            const options = { upsert: true };
+            const updateStock = {
+                $set: {
+                    quantity: newStock.quantity
+                }
+            };
+            const result = await clothCollection.updateOne(filter, updateStock, options);
+            res.send(result);
+
+        })
         // delete: 
         app.delete('/cloth/:id', async (req, res) => {
             const id = req.params.id;
